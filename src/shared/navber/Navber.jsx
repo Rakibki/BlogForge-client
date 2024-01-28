@@ -1,7 +1,27 @@
 import logo from "../../assets/logo-dark.svg";
 import { Link, NavLink } from "react-router-dom";
+import { CiBookmark } from "react-icons/ci";
+import getLocalStor from "../../utils/localStoreg";
+import { useContext, useState } from "react";
+import { authContext } from "../../providers/AuthProviders";
+import { IoMdAdd } from "react-icons/io";
+import CreateBlog from "../../components/modals/createBlog/CreateBlog";
 
 const Navber = ({ children }) => {
+  const localStorage = getLocalStor("bookMarkList");
+  const { user } = useContext(authContext);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  let subtitle;
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = "#f00";
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   const navItems = (
     <ul className="flex gap-2">
       <li>
@@ -18,6 +38,10 @@ const Navber = ({ children }) => {
       </li>
     </ul>
   );
+
+  const handleAddBlog = () => {
+    setIsOpen(true);
+  };
 
   return (
     <div className="drawer">
@@ -49,7 +73,9 @@ const Navber = ({ children }) => {
 
           <div className="flex items-center justify-between">
             <div className=" px-2 mx-2">
-              <img src={logo} className="w-40" alt="" />
+              <Link to={"/"}>
+                <img src={logo} className="w-40" alt="" />
+              </Link>
             </div>
 
             <div className="flex-none hidden lg:block">
@@ -59,12 +85,38 @@ const Navber = ({ children }) => {
               </ul>
             </div>
 
-            <div>
-              <Link to={"/login"}>
-                <button className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full">
-                  Login
-                </button>
-              </Link>
+            <div className="flex items-center gap-4">
+              <div className="relative cursor-pointer">
+                <CiBookmark className="text-2xl" />
+                <div className="absolute -top-3 bg-[#fb2576] px-1 text-white rounded-xl -right-1">
+                  {localStorage?.length}
+                </div>
+              </div>
+
+              {user && user?.email ? (
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleAddBlog}
+                    className="flex px-4 items-center rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full"
+                  >
+                    <div className="flex items-center">
+                      <IoMdAdd />
+                      <p>blog</p>
+                    </div>
+                  </button>
+                  <button className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link to={"/login"}>
+                    <button className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full">
+                      Login
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -82,6 +134,12 @@ const Navber = ({ children }) => {
           {navItems}
         </ul>
       </div>
+      <CreateBlog
+        subtitle={subtitle}
+        closeModal={closeModal}
+        afterOpenModal={afterOpenModal}
+        modalIsOpen={modalIsOpen}
+      />
     </div>
   );
 };
