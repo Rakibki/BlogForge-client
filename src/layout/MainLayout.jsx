@@ -5,8 +5,9 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <div>
-      <Navber />
-      <Outlet />
+      <Navber>
+        <Outlet />
+      </Navber>
       <Footer />
     </div>
   );
