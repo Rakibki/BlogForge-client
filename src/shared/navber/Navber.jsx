@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { authContext } from "../../providers/AuthProviders";
 import { IoMdAdd } from "react-icons/io";
 import CreateBlog from "../../components/modals/createBlog/CreateBlog";
+import Dropdown from "./Dropdown";
 
 const Navber = ({ children }) => {
   const localStorage = getLocalStor("bookMarkList");
@@ -49,7 +50,7 @@ const Navber = ({ children }) => {
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
         <div className="w-full p-4 bg-base-300">
-          <div className="flex-none lg:hidden">
+          <div className="flex-none block lg:hidden">
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
@@ -72,7 +73,7 @@ const Navber = ({ children }) => {
           </div>
 
           <div className="flex items-center justify-between">
-            <div className=" px-2 mx-2">
+            <div className="px-2 mx-2">
               <Link to={"/"}>
                 <img src={logo} className="w-40" alt="" />
               </Link>
@@ -104,9 +105,22 @@ const Navber = ({ children }) => {
                       <p>blog</p>
                     </div>
                   </button>
-                  <button className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full">
-                    Logout
-                  </button>
+
+                  <div className="dropdown dropdown-end">
+                    <div role="button" tabIndex={0} className="w-[50px]">
+                      <img
+                        className="rounded-full border-[1px] border-[#fb2576]"
+                        src={user?.photoURL}
+                        alt=""
+                      />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <Dropdown />
+                    </ul>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -120,6 +134,7 @@ const Navber = ({ children }) => {
             </div>
           </div>
         </div>
+
         {/* Page content here */}
         {children}
       </div>

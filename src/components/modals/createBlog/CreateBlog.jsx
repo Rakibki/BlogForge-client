@@ -1,7 +1,14 @@
 import Modal from "react-modal";
 import uploadeImage from "../../../utils/uploadeImage";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useContext } from "react";
+import { authContext } from "../../../providers/AuthProviders";
+import Loader from "../../loader/Loader";
 
 const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
+  const axiosSecure = useAxiosSecure();
+  const { user, loadding } = useContext(authContext);
+
   const customStyles = {
     content: {
       top: "50%",
@@ -13,13 +20,20 @@ const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
     },
   };
 
+  if (loadding) {
+    return <Loader />;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target.title.value;
     const body = e.target.body.value;
     const files = await e.target.imgFile.files[0];
     const image = await uploadeImage(files);
-    console.log({ title, body, image });
+    const userId = await user?.uid
+    const blogDada = { title, body, image, userId };
+    const res = await axiosSecure.post("/blog", blogDada);
+    console.log(res);
   };
 
   return (
@@ -53,7 +67,10 @@ const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
                 id=""
               />
             </div>
-            <button type="submit" className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full">
+            <button
+              type="submit"
+              className="py-2 px-6 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full"
+            >
               Post
             </button>
           </form>

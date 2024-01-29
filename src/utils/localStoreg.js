@@ -1,3 +1,5 @@
+
+
 export const getLocalStor = (lsName) => {
   let card = [];
   let lsCard = localStorage.getItem(lsName);

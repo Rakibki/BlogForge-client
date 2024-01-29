@@ -27,8 +27,6 @@ const Register = () => {
     const file = e.target.file.files[0];
     const image = await uploadeImage(file);
 
-    const userInfo = { name, email, image };
-
     if (password.length < 6) {
       return setError("It should be at least 6 characters long.");
     }
@@ -51,9 +49,12 @@ const Register = () => {
       photoURL: image,
     });
 
+
+    const userInfo = {email, image, name, userId: user?.uid  };
+
     const res = await axiosSecure.post("/users", userInfo);
     if (res?.data) {
-      Noticilation("success", "Register Successful");
+      Noticilation("success", "Registetion Successful");
       naviagate("/");
     }
   };

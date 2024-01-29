@@ -4,13 +4,13 @@ import getLocalStor from "../../utils/localStoreg";
 import Noticilation from "../../utils/Noticilation";
 
 const Blog = ({ blog }) => {
+
+
   const handleBoolMark = (id) => {
-    const bookMarkList = getLocalStor("bookMarkList");
-    console.log(bookMarkList);
-    const isExciting = bookMarkList?.find((item) => item === id);
-    console.log(isExciting);
+    const bookMarkList = getLocalStor("bookMarkList")
+    const isExciting = bookMarkList?.find((item) => item === id)
     if (isExciting) {
-      return Noticilation("warn", "already marked ");
+      return Noticilation("warn", "already marked");
     } else {
       bookMarkList.push(id);
       const bookMarkListStringfy = JSON.stringify(bookMarkList);
