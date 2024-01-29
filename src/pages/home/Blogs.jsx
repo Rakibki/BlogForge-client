@@ -22,7 +22,7 @@ const Blogs = () => {
 
 
   return (
-    <div className="grid gap-8 bg-[#f9f9ff] grid-cols-4">
+    <div className="lg:grid gap-8 mb-10 bg-[#f9f9ff] grid-cols-4">
       <div className="col-span-3 flex flex-col gap-6">
         {data?.map((blog) => (
           <Blog blog={blog} key={blog?.Id} />

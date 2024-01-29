@@ -1,7 +1,7 @@
 import { MdOutlineMail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { authContext } from "../../providers/AuthProviders";
 import SocailLogin from "../../components/socailLogin/SocailLogin";
 import logo from "../../assets/logo-dark.svg";
@@ -10,13 +10,21 @@ import { IoMdArrowBack } from "react-icons/io";
 const Login = () => {
   const { loginUser } = useContext(authContext);
   const naviagate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     loginUser(email, password)
-    naviagate("/");
+      .then((res) => {
+        if (res?.user) {
+          naviagate("/");
+        }
+      })
+      .catch((error) => {
+        setError(error?.message);
+      });
   };
 
   return (
@@ -59,7 +67,7 @@ const Login = () => {
             />
             <CiLock className="absolute text-xl left-4 text-[#dadce5] top-[30%]" />
           </div>
-
+          <p className="text-red-600 text-center my-2">{error}</p>
           <div className="mt-4 mb-4">
             <button
               type="submit"

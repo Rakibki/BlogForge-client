@@ -24,7 +24,7 @@ const Navber = ({ children }) => {
   }
 
   const navItems = (
-    <div className="flex gap-6">
+    <div className="lg:flex gap-6">
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
@@ -52,7 +52,7 @@ const Navber = ({ children }) => {
   };
 
   return (
-    <div className="drawer">
+    <div className="drawer z-20">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
@@ -111,12 +111,16 @@ const Navber = ({ children }) => {
                   >
                     <div className="flex cursor-pointer bg-[#fb2576] rounded-full text-white px-4 py-2 items-center">
                       <IoMdAdd />
-                      <h1>blog</h1>
+                      <p className="text-white">blog</p>
                     </div>
                   </div>
 
                   <div className="dropdown dropdown-end">
-                    <div role="button" tabIndex={0} className="w-[50px]">
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      className="w-[50px] overflow-hidden rounded-full h-[50px]"
+                    >
                       <img
                         className="rounded-full border-[1px] border-[#fb2576]"
                         src={user?.photoURL}

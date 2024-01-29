@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loader from "../loader/Loader";
+import Title from "../title/Title";
 
 const FeaturedBlogs = () => {
   const axiosSucure = useAxiosSecure();
@@ -19,12 +20,15 @@ const FeaturedBlogs = () => {
 
   return (
     <div className="w-full bg-white">
-      <h1 className="text-3xl mb-6 font-semibold">Featured posts</h1>
+      {/* <h1 className="text-3xl mb-6 font-semibold">Featured posts</h1> */}
+      <div className="mb-4">
+        <Title title={"Featured posts"} />
+      </div>
 
-      <div className="w-full flex flex-col gap-6">
+      <div className="w-full flex flex-col md:gap-6">
         {data?.slice(0, 3).map((blog) => {
           return (
-            <div className="grid gap-2 grid-cols-6" key={blog?.id}>
+            <div className="md:grid gap-2 grid-cols-6" key={blog?.id}>
               <img className="col-span-2 rounded-xl" src={blog?.image} alt="" />
               <div className="col-span-4">
                 <h1>{blog?.title}</h1>

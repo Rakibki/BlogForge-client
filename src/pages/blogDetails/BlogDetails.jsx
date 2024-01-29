@@ -59,7 +59,7 @@ const BlogDetails = () => {
 
   return (
     <>
-      <div className="gap-4 grid grid-cols-6 my-10">
+      <div className="gap-4 p-3 lg:grid grid-cols-6 my-10">
         <div className="col-span-4 w-full">
           <div className="w-full">
             <img className="h-[500px] w-full" src={data?.image} alt="" />
