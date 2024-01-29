@@ -1,16 +1,17 @@
 import Modal from "react-modal";
-import uploadeImage from "../../../utils/uploadeImage";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useContext } from "react";
-import { authContext } from "../../../providers/AuthProviders";
-import Loader from "../../loader/Loader";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import Noticilation from "../../../utils/Noticilation";
 
-const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
+const UpdateBlog = ({
+  modalIsOpen,
+  afterOpenModal,
+  closeModal,
+  updateBlog,
+  refetch
+}) => {
   const axiosSecure = useAxiosSecure();
-  const { user, loadding } = useContext(authContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const customStyles = {
     content: {
@@ -23,22 +24,17 @@ const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
     },
   };
 
-  if (loadding) {
-    return <Loader />;
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target.title.value;
     const body = e.target.body.value;
-    const files = await e.target.imgFile.files[0];
-    const image = await uploadeImage(files);
-    const userId = await user?.uid
-    const blogDada = { title, body, image, userId };
-    const res = await axiosSecure.post("/blog", blogDada);
-    if(res.data) {
-      Noticilation("success", "Blog Added Successfully")
-      navigate("/dashboard/my-added-blogs")
+    const blogDada = { title, body };
+    const res = await axiosSecure.put(`/blog/${updateBlog?.Id}`, blogDada);
+
+    if (res.data) {
+      Noticilation("success", "Blog Updated Successfully");
+      refetch()
+      closeModal()
     }
   };
 
@@ -52,25 +48,20 @@ const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
         contentLabel="Example Modal"
       >
         <div className="w-[550px]">
-          <h1 className="text-3xl font-semibold">Add A New Blog</h1>
+          <h1 className="text-3xl font-semibold">Update Blog</h1>
 
           <form onSubmit={handleSubmit}>
             <div className="relative mt-3">
               <input
+                defaultValue={updateBlog?.title}
                 type="text"
                 name="title"
                 className="bg-[#fff] w-full rounded-full border-[1px] border-[#dadce5] placeholder:text-[#dadce5] text-[#2d3350] py-2 px-8 text-lg outline-none"
               />
               <textarea
+                defaultValue={updateBlog?.body}
                 name="body"
                 className="bg-[#fff] mt-2 w-full rounded-full border-[1px] border-[#dadce5] placeholder:text-[#dadce5] text-[#2d3350] py-2 px-8 text-lg outline-none"
-              />
-
-              <input
-                type="file"
-                name="imgFile"
-                className="bg-[#fff] mt-2 text-white border-none"
-                id=""
               />
             </div>
             <button
@@ -87,4 +78,4 @@ const CreateBlog = ({ modalIsOpen, afterOpenModal, closeModal }) => {
   );
 };
 
-export default CreateBlog;
+export default UpdateBlog;
