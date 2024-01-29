@@ -52,7 +52,7 @@ const Navber = ({ children }) => {
   };
 
   return (
-    <div className="drawer z-20">
+    <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}

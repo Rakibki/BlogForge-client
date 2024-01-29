@@ -55,7 +55,7 @@ const MyAddedBlog = () => {
   }
 
   return (
-    <div className="flex-col gap-4 my-4">
+    <div className="flex-col flex gap-4 my-4">
       
       <div className="mt-4">
         <Title title={"My Added Blogs"} />

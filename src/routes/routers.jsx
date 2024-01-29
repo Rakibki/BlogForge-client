@@ -8,6 +8,7 @@ import BlogDetails from "../pages/blogDetails/BlogDetails";
 import MyAddedBlog from "../pages/myAddedBlog/MyAddedBlog";
 import MarkList from "../pages/markList/MarkList";
 import Profile from "../pages/profile/Profile";
+import PrivareRouter from "./PrivareRouter";
 
 const router = createBrowserRouter([
   {
@@ -21,19 +22,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/blog/:id",
-        element: <BlogDetails />,
+        element: (
+          <PrivareRouter>
+            <BlogDetails />
+          </PrivareRouter>
+        ),
       },
       {
         path: "/dashboard/my-added-blogs",
-        element: <MyAddedBlog />
+        element: <MyAddedBlog />,
       },
       {
         path: "/dashboard/mark-list",
-        element: <MarkList />
+        element: <MarkList />,
       },
       {
         path: "/dashboard/profile",
-        element: <Profile />
+        element: <Profile />,
       },
     ],
   },

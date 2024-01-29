@@ -89,7 +89,7 @@ const BlogDetails = () => {
 
             {/* comment List */}
             <div>
-              {comments?.length < 1 && <p className="text-lg">No comments {comments?.length}</p>}
+              {comments?.length < 1 && <p className="text-lg">No comments</p>}
               <div>
                 {
                   comments?.map((comment) => {

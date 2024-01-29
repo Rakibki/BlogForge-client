@@ -31,7 +31,7 @@ const FeaturedBlogs = () => {
             <div className="md:grid gap-2 grid-cols-6" key={blog?.id}>
               <img className="col-span-2 rounded-xl" src={blog?.image} alt="" />
               <div className="col-span-4">
-                <h1>{blog?.title}</h1>
+                <h3>{blog?.title}</h3>
               </div>
             </div>
           );

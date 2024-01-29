@@ -1,6 +1,6 @@
 import { MdOutlineMail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { authContext } from "../../providers/AuthProviders";
 import SocailLogin from "../../components/socailLogin/SocailLogin";
@@ -11,6 +11,8 @@ const Login = () => {
   const { loginUser } = useContext(authContext);
   const naviagate = useNavigate();
   const [error, setError] = useState("");
+  const localcation = useLocation()
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const Login = () => {
     loginUser(email, password)
       .then((res) => {
         if (res?.user) {
-          naviagate("/");
+          naviagate(localcation.state ? localcation.state : "/");
         }
       })
       .catch((error) => {
