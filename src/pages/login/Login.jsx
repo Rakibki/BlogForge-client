@@ -1,49 +1,22 @@
-import { FaUser } from "react-icons/fa6";
 import { MdOutlineMail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { updateProfile } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { authContext } from "../../providers/AuthProviders";
-import uploadeImage from "../../utils/uploadeImage";
 import SocailLogin from "../../components/socailLogin/SocailLogin";
-import auth from "../../firebase/firebase.config";
 import logo from "../../assets/logo-dark.svg";
 import { IoMdArrowBack } from "react-icons/io";
 
 const Login = () => {
-  const { createUser, user } = useContext(authContext);
-  const [error, setError] = useState("");
+  const { loginUser } = useContext(authContext);
+  const naviagate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const file = e.target.file.files[0];
-    const image = await uploadeImage(file);
-
-    if (password.length < 6) {
-      return setError("It should be at least 6 characters long.");
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      return setError("It should contain at least one uppercase letter.");
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      return setError("It should contain at least one uppercase letter.");
-    }
-
-    if (!/[!@#$%^&*]/.test(password)) {
-      return setError("It should contain at least one special character");
-    }
-
-    await createUser(email, password);
-    await updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: image,
-    });
+    loginUser(email, password)
+    naviagate("/");
   };
 
   return (
@@ -88,7 +61,6 @@ const Login = () => {
           </div>
 
           <div className="mt-4 mb-4">
-            <p className="text-red-700 font-Poppins mb-2">{error}</p>
             <button
               type="submit"
               className="py-2 rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full"
@@ -99,7 +71,10 @@ const Login = () => {
 
           <h1 className="font-Poppins mb-4 text-center">
             New here?{" "}
-            <Link className="hover:underline text-[#fb2576] font-semibold" to={"/register"}>
+            <Link
+              className="hover:underline text-[#fb2576] font-semibold"
+              to={"/register"}
+            >
               Create a New Account
             </Link>
           </h1>

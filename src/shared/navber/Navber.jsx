@@ -24,20 +24,27 @@ const Navber = ({ children }) => {
   }
 
   const navItems = (
-    <ul className="flex gap-2">
+    <div className="flex gap-6">
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-[#fb2576]" : ""
+          }
+          to={"/"}
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink to={"/about"}>About</NavLink>
       </li>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink to={"/blog"}>Blogs</NavLink>
       </li>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink to={"/conatct"}>Contact</NavLink>
       </li>
-    </ul>
+    </div>
   );
 
   const handleAddBlog = () => {
@@ -80,31 +87,33 @@ const Navber = ({ children }) => {
             </div>
 
             <div className="flex-none hidden lg:block">
-              <ul className="menu menu-horizontal">
+              <ul className="">
                 {/* Navbar menu content here */}
                 {navItems}
               </ul>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="relative cursor-pointer">
-                <CiBookmark className="text-2xl" />
-                <div className="absolute -top-3 bg-[#fb2576] px-1 text-white rounded-xl -right-1">
-                  {localStorage?.length}
+              <Link to={"/dashboard/mark-list"}>
+                <div className="relative cursor-pointer">
+                  <CiBookmark className="text-2xl" />
+                  <div className="absolute -top-3 bg-[#fb2576] px-1 text-white rounded-xl -right-1">
+                    {localStorage?.length}
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               {user && user?.email ? (
                 <div className="flex gap-2">
-                  <button
+                  <div
                     onClick={handleAddBlog}
-                    className="flex px-4 items-center rounded-full hover:opacity-55 transition-all bg-[#fb2576] text-white font-Poppins w-full"
+                    className="flex items-center hover:opacity-55 transition-all"
                   >
-                    <div className="flex items-center">
+                    <div className="flex cursor-pointer bg-[#fb2576] rounded-full text-white px-4 py-2 items-center">
                       <IoMdAdd />
-                      <p>blog</p>
+                      <h1>blog</h1>
                     </div>
-                  </button>
+                  </div>
 
                   <div className="dropdown dropdown-end">
                     <div role="button" tabIndex={0} className="w-[50px]">

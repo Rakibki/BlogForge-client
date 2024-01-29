@@ -5,8 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import FeaturedBlogs from "../../components/FeaturedPosts/FeaturedBlogs";
 import { useContext } from "react";
 import { authContext } from "../../providers/AuthProviders";
-const UUID = require('uuid-int');
-
+import Noticilation from "../../utils/Noticilation";
+import UUID from "uuid-int";
+import userImg from "../../assets/user.png"
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -23,21 +24,37 @@ const BlogDetails = () => {
     },
   });
 
-  if (isPending) {
+  const { isPending: isPending2, data: comments, refetch } = useQuery({
+    queryKey: ["comments"],
+    enabled: !!data,
+    queryFn: async () => {
+      const res = await axiosSucure.get(`/cooments/${data?.Id}`);
+      return res?.data;
+    },
+  });
+
+  if (isPending && isPending2) {
     return <Loader />;
   }
 
-  const handleComment = (e) => {
+  const handleComment = async (e) => {
     e.preventDefault();
-  
-    const blogData = {
-      body = e.target.comment.value;
-      blogId = data?.Id,
-      id: ,
-      name: user?.displayName,
-      email: user?.email
+
+    if (!user && !user?.email) {
+      return Noticilation("warn", "Please login first");
     }
 
+    const commentData = {
+      body: e.target.comment.value,
+      blogId: data?.Id,
+      id: generator.uuid(),
+      name: user?.displayName,
+      email: user?.email,
+    };
+
+    const res = await axiosSucure.post("/comment", commentData);
+    console.log(res);
+    refetch()
   };
 
   return (
@@ -69,6 +86,21 @@ const BlogDetails = () => {
                 Comment
               </button>{" "}
             </form>
+
+            {/* comment List */}
+            <div>
+              {comments?.length < 1 && <p className="text-lg">No comments {comments?.length}</p>}
+              <div>
+                {
+                  comments?.map((comment) => {
+                    return <div className="flex items-center" key={comment.id}> 
+                     <img className="w-[50px]" src={userImg} alt="" />
+                      <h1 className="text-lg">{comment?.body}</h1>
+                    </div>
+                  })
+                }
+              </div>
+            </div>
           </div>
         </div>
         <div className="col-span-2">

@@ -16,7 +16,9 @@ const MarkList = () => {
     },
   });
 
-  const bookMarkListItems = data?.filter((item) => localStorageList.includes(item?.Id));
+  const bookMarkListItems = data?.filter((item) =>
+    localStorageList.includes(item?.Id)
+  );
 
   if (isPending) {
     return <Loader />;
